@@ -1,0 +1,18 @@
+# editor
+.idea
+
+/build
+
+*.env
+*.envs/.*
+envs/*
+
+# Ignore CLI configuration files
+.terraformrc
+.terraform
+terraform.rc
+
+# Ignore CLI configuration files
+.terraformrc
+.terraform
+terraform.rc
