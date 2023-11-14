@@ -5,6 +5,8 @@ Python 3.12 image and contains the following tools:
 
 - Terraform
 - AWS CLI
+- SOPS
+- jq
 
 The image is intended to be used as a base image for CI/CD pipelines.
 
