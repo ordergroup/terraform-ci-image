@@ -7,7 +7,7 @@ RUN apt update && apt -y install ansible
 # Install terraform
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys AA16FCBCA621E701
 RUN apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" && \
- apt-get update && apt-get install terraform=1.5.7
+ apt-get update && apt-get install terraform=1.5.7-1 -y
 
 
 # Install AWS-CLI
