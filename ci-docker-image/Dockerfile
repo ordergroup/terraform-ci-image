@@ -21,7 +21,7 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
     ./aws/install
 
 # Install SOPS
-RUN wget https://github.com/mozilla/sops/releases/download/v${SOPS_VERSION}/sops-v${SOPS_VERSION}.linux && \
-    chmod +x sops-v${SOPS_VERSION}.linux && \
-    mv sops-v${SOPS_VERSION}.linux /usr/local/bin/sops
+RUN curl -LO https://github.com/getsops/sops/releases/download/v${SOPS_VERSION}/sops-v${SOPS_VERSION}.linux.amd64 && \
+    mv sops-v${SOPS_VERSION}.linux.amd64 /usr/local/bin/sops && \
+    chmod +x /usr/local/bin/sops
 
