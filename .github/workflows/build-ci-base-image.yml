@@ -2,6 +2,11 @@ name: Build and push base CI Docker image
 
 on:
   workflow_dispatch:
+    inputs:
+      terraform:
+        description: 'Terraform version'
+        required: false
+        default: '1.11.4-1'
   push:
     paths:
       - 'ci-docker-image/**'
@@ -12,6 +17,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  TERRAFORM_VERSION: ${{ github.event.inputs.terraform || '1.11.4-1' }}
 
 jobs:
   build_docker:
@@ -36,16 +42,21 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: |
+            name=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+            name=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-terraform-v${{ env.TERRAFORM_VERSION }}
           tags: |
             type=sha,format=long
             type=ref,event=branch
-            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
-
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
+            type=raw,value=terraform-v${{ env.TERRAFORM_VERSION }}
+            
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+        uses: docker/build-push-action@v6
         with:
+          build-args: |
+            TERRAFORM_VERSION=${{ env.TERRAFORM_VERSION }}
           context: .
           file: ./ci-docker-image/Dockerfile
           push: true
