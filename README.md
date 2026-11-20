@@ -1,7 +1,7 @@
 # Simple CI/CD image with Terraform and AWS CLI
 
 This repository contains a simple Docker image with Terraform and AWS CLI installed. The image is based on the
-Python 3.12 image and contains the following tools:
+Python 3.14 image (Debian 13 trixie) and contains the following tools:
 
 - Terraform
 - AWS CLI
