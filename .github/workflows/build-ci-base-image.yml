@@ -6,7 +6,7 @@ on:
       terraform:
         description: 'Terraform version'
         required: false
-        default: '1.11.4-1'
+        default: '1.17.2-1'
   push:
     paths:
       - 'ci-docker-image/**'
@@ -17,7 +17,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  TERRAFORM_VERSION: ${{ github.event.inputs.terraform || '1.11.4-1' }}
+  TERRAFORM_VERSION: ${{ github.event.inputs.terraform || '1.17.2-1' }}
 
 jobs:
   build_docker:
@@ -29,10 +29,10 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Log in to the Container registry
-        uses: docker/login-action@v1
+        uses: docker/login-action@v4
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
@@ -40,7 +40,7 @@ jobs:
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           images: |
             name=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
@@ -53,7 +53,7 @@ jobs:
             
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           build-args: |
             TERRAFORM_VERSION=${{ env.TERRAFORM_VERSION }}
